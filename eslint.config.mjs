@@ -7,7 +7,15 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ['node_modules', 'build'],
+    ignores: [
+      'dist',
+      'esm/*',
+      'public/*',
+      'tests/*',
+      '*.config.js',
+      'node_modules',
+      'build'
+    ],
     rules: {
       semi: ['error', 'always']
     }

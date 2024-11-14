@@ -1,7 +1,0 @@
-dist
-esm/*
-public/*
-tests/*
-*.config.js
-node_modules
-build
