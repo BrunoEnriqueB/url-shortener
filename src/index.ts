@@ -1,10 +1,11 @@
 import 'dotenv/config';
 
-import express from 'express';
 import env from '@/config/environment';
-import helmet from 'helmet';
+import logger from '@/config/logger';
 import cors from 'cors';
+import express from 'express';
 import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 
 const app = express();
 
@@ -22,5 +23,5 @@ app.use(cors());
 app.use(express.json());
 
 app.listen(env.PORT, () => {
-  console.log(`Server is listening in port: ${env.PORT}`);
+  logger.debug(`Server is listening in port: ${env.PORT}`);
 });
