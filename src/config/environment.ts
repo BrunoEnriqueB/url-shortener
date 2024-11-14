@@ -12,7 +12,8 @@ const envSchema = z.object({
   DB_HOST: z.string(),
   DB_PASSWORD: z.string(),
   DB_USER: z.string(),
-  DB_NAME: z.string()
+  DB_NAME: z.string(),
+  API_URL: z.string().default('http://localhost:3000')
 });
 
 const env: z.infer<typeof envSchema> = envSchema.parse(process.env);
