@@ -8,6 +8,7 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
+import { testConnection } from './database';
 
 const app = express();
 
@@ -28,6 +29,8 @@ app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 const server = app.listen(env.PORT, async () => {
+  await testConnection();
+
   logger.info(`Server is listening in port: ${env.PORT}`);
 });
 

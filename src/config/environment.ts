@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const envSchema = z.object({
-  PORT: z.coerce.number().min(1000),
+  PORT: z.coerce.number(),
   NODE_ENV: z
     .union([
       z.literal('DEVELOPMENT'),
@@ -13,6 +13,7 @@ const envSchema = z.object({
   DB_PASSWORD: z.string(),
   DB_USER: z.string(),
   DB_NAME: z.string(),
+  DB_PORT: z.coerce.number(),
   API_URL: z.string().default('http://localhost:3000')
 });
 
