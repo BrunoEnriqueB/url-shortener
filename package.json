@@ -11,7 +11,8 @@
     "format": "prettier . --write",
     "prepare": "husky",
     "test": "jest",
-    "test:dev": "jest --watchAll"
+    "test:dev": "jest --watchAll",
+    "dev:docker": "tsx watch --inspect=0.0.0.0 src/index.ts"
   },
   "keywords": [],
   "author": "",

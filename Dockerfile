@@ -15,4 +15,4 @@ COPY . .
 # Expose port 3000, and start the app.
 EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev:docker"]
