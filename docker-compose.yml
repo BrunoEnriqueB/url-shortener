@@ -16,6 +16,7 @@ services:
   api:
     build: .
     restart: always
+    container_name: url-shortener-api
     ports:
       - 3000:${PORT}
       - 9229:9229
