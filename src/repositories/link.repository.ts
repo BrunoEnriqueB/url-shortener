@@ -9,6 +9,7 @@ import User from '@/models/user.model';
 import UsersLinks from '@/models/user_links.model';
 import { PartialModelObject } from 'objection';
 import LinkRepositoryInterface from './link-repository.interface';
+import { TListLinksDto } from '@/dtos/link/list.dto';
 
 class LinkRepository implements LinkRepositoryInterface {
   async create(
@@ -37,16 +38,20 @@ class LinkRepository implements LinkRepositoryInterface {
         link_id: newLink.id
       });
 
-      newLink = await newLink.$query().withGraphFetched('user');
+      newLink = await newLink.$query().withGraphJoined('user');
     }
 
     return newLink;
   }
 
-  async findUniqueOrThrow(shortened_url: string): Promise<Link> {
+  async findUniqueOrThrow(shortenedUrl: string): Promise<Link> {
     const link = await Link.query()
+      .withGraphJoined({
+        accesses: true,
+        user: true
+      })
       .where({
-        shortened_url
+        shortened_url: shortenedUrl
       })
       .first();
 
@@ -58,7 +63,12 @@ class LinkRepository implements LinkRepositoryInterface {
   }
 
   async findByIdOrThrow(id: number): Promise<Link> {
-    const link = await Link.query().findById(id);
+    const link = await Link.query()
+      .withGraphJoined({
+        accesses: true,
+        user: true
+      })
+      .findById(id);
 
     if (!link) {
       throw new LinkNotFoundError();
@@ -67,10 +77,14 @@ class LinkRepository implements LinkRepositoryInterface {
     return link;
   }
 
-  async findUnique(shortened_url: string): Promise<Link | undefined> {
+  async findUnique(shortenedUrl: string): Promise<Link | undefined> {
     const link = await Link.query()
+      .withGraphJoined({
+        accesses: true,
+        user: true
+      })
       .where({
-        shortened_url
+        shortened_url: shortenedUrl
       })
       .first();
 
@@ -99,6 +113,23 @@ class LinkRepository implements LinkRepositoryInterface {
     await findLink.$query().update();
 
     return newLinkAccess;
+  }
+
+  async find(parameters: TListLinksDto) {
+    const linksQuery = Link.query()
+      .withGraphJoined({
+        accesses: true
+      })
+      .joinRelated('user')
+      .where('user.id', parameters.user_id);
+
+    if (parameters.id) {
+      linksQuery.where(`${Link.tableName}.id`, parameters.id);
+    }
+
+    const links = await linksQuery;
+
+    return links;
   }
 }
 

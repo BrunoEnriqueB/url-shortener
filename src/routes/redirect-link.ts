@@ -11,6 +11,6 @@ const linkService = new LinkService(linkRepository);
 
 const linkController = new LinkController(linkService);
 
-router.get('/:shortened_url', linkController.find.bind(linkController));
+router.get('/:shortened_url', linkController.access.bind(linkController));
 
 export default router;

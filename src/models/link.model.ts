@@ -2,6 +2,7 @@ import { BaseModel } from '@/models/base.model';
 import User from '@/models/user.model';
 import { Model, RelationMappings } from 'objection';
 import UsersLinks from './user_links.model';
+import LinkAccess from './link_access.model';
 
 class Link extends BaseModel {
   static tableName: string = 'links';
@@ -22,6 +23,14 @@ class Link extends BaseModel {
           },
           to: `${User.tableName}.id`
         }
+      },
+      accesses: {
+        relation: Model.HasManyRelation,
+        modelClass: LinkAccess,
+        join: {
+          from: `${this.tableName}.id`,
+          to: `${LinkAccess.tableName}.link_id`
+        }
       }
     };
   }
@@ -32,6 +41,7 @@ class Link extends BaseModel {
   clicks!: number;
 
   user!: User[];
+  accesses!: LinkAccess[];
 }
 
 export default Link;

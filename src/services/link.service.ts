@@ -1,4 +1,6 @@
+import env from '@/config/environment';
 import { TCreateLinkDTO } from '@/dtos/link/create.dto';
+import { TListLinksDto } from '@/dtos/link/list.dto';
 import { CreateLinkAccessDTO } from '@/dtos/link_access/create.dto';
 import Link from '@/models/link.model';
 import User from '@/models/user.model';
@@ -27,13 +29,23 @@ export class LinkService {
       user
     );
 
+    newLink.shortened_url = this.concatenateUrl(newLink.shortened_url);
+
     return newLink;
   }
 
-  async find(shortUrl: string): Promise<Link> {
-    const link = this.linkRepository.findUniqueOrThrow(shortUrl);
+  async list(list: TListLinksDto) {
+    const links = await this.linkRepository.find(list);
 
-    return link;
+    const parsedLinks = links.map((link) => {
+      return {
+        shortened_url: this.concatenateUrl(link.shortened_url),
+        original_url: link.original_url,
+        clicks: link.clicks
+      };
+    });
+
+    return parsedLinks;
   }
 
   async linkAccess(shortenedUrl: string, req: Request): Promise<Link> {
@@ -49,5 +61,9 @@ export class LinkService {
     this.linkRepository.createAccess(createLinkAccessDto);
 
     return link;
+  }
+
+  private concatenateUrl(shortened_url: string) {
+    return `${env.API_URL}/${shortened_url}`;
   }
 }

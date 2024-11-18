@@ -1,8 +1,10 @@
-// Link Controller
-import env from '@/config/environment';
-import { UnprocessableEntityError } from '@/domain/errors/http';
+import {
+  UnauthorizedError,
+  UnprocessableEntityError
+} from '@/domain/errors/http';
 import { CreateLinkDTO } from '@/dtos/link/create.dto';
 import { FindLinkDTO } from '@/dtos/link/find.dto';
+import { ListLinksDto } from '@/dtos/link/list.dto';
 import validateToken from '@/helpers/validate-token.helper';
 import { LinkService } from '@/services/link.service';
 import { NextFunction, Request, Response } from 'express';
@@ -29,15 +31,41 @@ export default class LinkController {
         user
       );
 
-      const shortened_url = `${env.API_URL}/${newLink.shortened_url}`;
-
-      res.status(201).json({ success: true, url: shortened_url });
+      res.status(201).json({ success: true, url: newLink.shortened_url });
     } catch (error) {
       next(error);
     }
   }
 
-  async find(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async list(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const user = await validateToken(req);
+
+      if (!user) {
+        throw new UnauthorizedError();
+      }
+
+      const listLinkDto = ListLinksDto.safeParse({
+        user_id: user.id,
+        id: req.query.id
+      });
+
+      if (!listLinkDto.success) {
+        throw new UnprocessableEntityError(listLinkDto.error.errors);
+      }
+
+      const links = await this.linkService.list(listLinkDto.data);
+
+      res.status(200).json({
+        success: true,
+        data: links
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async access(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const findLinkDto = FindLinkDTO.safeParse(req.params);
 
