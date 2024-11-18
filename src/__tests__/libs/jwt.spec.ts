@@ -4,7 +4,6 @@ import { TokenUserDTO, TTokenUserDTO } from '@/dtos/user/token.dto';
 import Token from '@/libs/jwt.libs';
 import jwt from 'jsonwebtoken';
 
-// Mock external dependencies
 jest.mock('jsonwebtoken');
 jest.mock('@/dtos/user/token.dto');
 

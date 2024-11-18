@@ -2,7 +2,7 @@ import env from '@/config/environment';
 import swaggerJSDoc from 'swagger-jsdoc';
 
 const swaggerOptions: swaggerJSDoc.Options = {
-  apis: ['./src/routes/*.ts'],
+  apis: ['./src/routes/*.ts', 'dist/src/routes/*.js'],
   swaggerDefinition: {
     openapi: '3.0.0',
     info: {

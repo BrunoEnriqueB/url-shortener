@@ -5,7 +5,6 @@ describe('Hash Password Utils', () => {
   let hashedPassword: string;
 
   beforeAll(async () => {
-    // Generate a hashed password for testing purposes
     hashedPassword = await hashPassword(password);
   });
 
