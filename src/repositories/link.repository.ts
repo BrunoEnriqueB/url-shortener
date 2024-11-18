@@ -10,6 +10,7 @@ import UsersLinks from '@/models/user_links.model';
 import { PartialModelObject } from 'objection';
 import LinkRepositoryInterface from './link-repository.interface';
 import { TListLinksDto } from '@/dtos/link/list.dto';
+import { TUpdateLinkDto } from '@/dtos/link/update.dto';
 
 class LinkRepository implements LinkRepositoryInterface {
   async create(
@@ -121,7 +122,8 @@ class LinkRepository implements LinkRepositoryInterface {
         accesses: true
       })
       .joinRelated('user')
-      .where('user.id', parameters.user_id);
+      .where('user.id', parameters.user_id)
+      .orderBy('created_at', 'DESC');
 
     if (parameters.id) {
       linksQuery.where(`${Link.tableName}.id`, parameters.id);
@@ -130,6 +132,22 @@ class LinkRepository implements LinkRepositoryInterface {
     const links = await linksQuery;
 
     return links;
+  }
+
+  async update(parameters: TUpdateLinkDto) {
+    await Link.query()
+      .whereExists(
+        UsersLinks.query().where({
+          user_id: parameters.user_id,
+          link_id: parameters.id
+        })
+      )
+      .where(`${Link.tableName}.id`, parameters.id)
+      .patch({ original_url: parameters.new_url });
+
+    const link = await Link.query().findById(parameters.id);
+
+    return link;
   }
 }
 

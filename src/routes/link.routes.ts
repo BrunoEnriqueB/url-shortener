@@ -90,5 +90,43 @@ router.post('/', linkController.createLink.bind(linkController));
  */
 
 router.get('/', linkController.list.bind(linkController));
+/**
+ * @swagger
+ * /api/link/{id}:
+ *   patch:
+ *     summary: Update a link
+ *     description: Update the redirection URL of an existing link
+ *     tags:
+ *       - Links
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: The ID of the link to update
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               new_url:
+ *                 type: string
+ *                 description: The new URL for the redirection
+ *     responses:
+ *       204:
+ *         description: Link updated successfully
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
+ *       422:
+ *         $ref: '#/components/responses/ValidationError'
+ */
+router.patch('/:id', linkController.update.bind(linkController));
 
 export default router;

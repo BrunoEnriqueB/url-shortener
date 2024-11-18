@@ -1,4 +1,5 @@
 import { TListLinksDto } from '@/dtos/link/list.dto';
+import { TUpdateLinkDto } from '@/dtos/link/update.dto';
 import { TCreateLinkAccessDTO } from '@/dtos/link_access/create.dto';
 import Link from '@/models/link.model';
 import LinkAccess from '@/models/link_access.model';
@@ -11,6 +12,7 @@ interface LinkRepositoryInterface {
   findByIdOrThrow(id: number): Promise<Link>;
   createAccess(data: TCreateLinkAccessDTO): Promise<LinkAccess>;
   find(listParameters: TListLinksDto): Promise<Link[]>;
+  update(updateParameters: TUpdateLinkDto): Promise<Link | undefined>;
 }
 
 export default LinkRepositoryInterface;

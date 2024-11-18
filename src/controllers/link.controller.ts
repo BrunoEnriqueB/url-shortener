@@ -5,6 +5,7 @@ import {
 import { CreateLinkDTO } from '@/dtos/link/create.dto';
 import { FindLinkDTO } from '@/dtos/link/find.dto';
 import { ListLinksDto } from '@/dtos/link/list.dto';
+import { UpdateLinkDto } from '@/dtos/link/update.dto';
 import validateToken from '@/helpers/validate-token.helper';
 import { LinkService } from '@/services/link.service';
 import { NextFunction, Request, Response } from 'express';
@@ -79,6 +80,32 @@ export default class LinkController {
       );
 
       res.redirect(decodeURIComponent(link.original_url));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async update(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const user = await validateToken(req);
+
+      if (!user) {
+        throw new UnauthorizedError();
+      }
+
+      const updateLinkDto = UpdateLinkDto.safeParse({
+        id: req.params.id,
+        new_url: req.body.new_url,
+        user_id: user.id
+      });
+
+      if (!updateLinkDto.success) {
+        throw new UnprocessableEntityError(updateLinkDto.error.errors);
+      }
+
+      await this.linkService.update(updateLinkDto.data);
+
+      res.status(200).json({ success: true });
     } catch (error) {
       next(error);
     }

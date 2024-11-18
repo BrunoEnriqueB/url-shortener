@@ -1,6 +1,8 @@
 import env from '@/config/environment';
+import { UnauthorizedError } from '@/domain/errors/http';
 import { TCreateLinkDTO } from '@/dtos/link/create.dto';
 import { TListLinksDto } from '@/dtos/link/list.dto';
+import { TUpdateLinkDto } from '@/dtos/link/update.dto';
 import { CreateLinkAccessDTO } from '@/dtos/link_access/create.dto';
 import Link from '@/models/link.model';
 import User from '@/models/user.model';
@@ -12,16 +14,7 @@ export class LinkService {
   constructor(private linkRepository: LinkRepositoryInterface) {}
 
   async createLink(createLinkDto: TCreateLinkDTO, user?: User): Promise<Link> {
-    let shortenedUrl: string = '';
-
-    while (!shortenedUrl) {
-      const hashedOriginalUrl = hashOriginalUrl(createLinkDto.original_url);
-
-      const linkWithThisUrl =
-        await this.linkRepository.findUnique(hashedOriginalUrl);
-
-      if (!linkWithThisUrl) shortenedUrl = hashedOriginalUrl;
-    }
+    const shortenedUrl: string = hashOriginalUrl(createLinkDto.original_url);
 
     const newLink = await this.linkRepository.create(
       encodeURIComponent(createLinkDto.original_url),
@@ -63,7 +56,23 @@ export class LinkService {
     return link;
   }
 
-  private concatenateUrl(shortened_url: string) {
-    return `${env.API_URL}/${shortened_url}`;
+  async update(updateLinkDto: TUpdateLinkDto) {
+    const link = await this.linkRepository.findByIdOrThrow(updateLinkDto.id);
+
+    const linkHasUser = link.user?.length;
+    const linkBelongsToUser =
+      link.user?.length && link.user[0]!.id === updateLinkDto.user_id;
+
+    if (!linkHasUser || !linkBelongsToUser) {
+      throw new UnauthorizedError();
+    }
+
+    const updatedLink = await this.linkRepository.update(updateLinkDto);
+
+    return updatedLink;
+  }
+
+  private concatenateUrl(shortenedUrl: string) {
+    return `${env.API_URL}/${shortenedUrl}`;
   }
 }
