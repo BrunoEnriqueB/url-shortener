@@ -1,19 +1,18 @@
-import type { Config } from '@jest/types';
+import type { JestConfigWithTsJest } from 'ts-jest';
+import { compilerOptions } from './tsconfig.json';
+import { pathsToModuleNameMapper } from 'ts-jest';
 
-const config: Config.InitialOptions = {
+const config: JestConfigWithTsJest = {
   verbose: true,
   preset: 'ts-jest',
   testEnvironment: 'node',
-  transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest'
-  },
-  projects: [
-    {
-      testPathIgnorePatterns: ['<rootDir>/node_modules/'],
-      preset: 'ts-jest',
-      displayName: 'my-package',
-      testMatch: ['<rootDir>/src/__tests__/**/*.spec.ts']
-    }
-  ]
+
+  roots: ['<rootDir>'],
+  modulePaths: [compilerOptions.baseUrl],
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
+    prefix: '<rootDir>/',
+    useESM: true
+  })
 };
+
 export default config;
