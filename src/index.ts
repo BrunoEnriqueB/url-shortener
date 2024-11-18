@@ -9,12 +9,30 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
 import { testConnection } from './database';
+import morgan from 'morgan';
+
+import routes from '@/routes';
+import errorHandlerMiddleware from './middlewares/error-handler.middleware';
 
 const app = express();
 
 const TEN_SECONDS_IN_MILLISECONDS = 10 * 1000;
 const FIVE_MINUTES_IN_MILLISECONDS = 5 * 60 * 1000;
 const MAX_REQUEST_PER_IP = 100;
+
+const stream = {
+  write: (message: string) => logger.http(message)
+};
+const morganFormat =
+  '[:date[iso]] - ' +
+  'Method: :method - ' +
+  'URL: :url - ' +
+  'Response Status: :status - ' +
+  'Content-Length: :res[content-length] - ' +
+  'Response Time: :response-time[2] ms - ' +
+  'Total Time: :total-time[2] ms';
+
+app.use(morgan(morganFormat, { stream }));
 
 app.use(
   rateLimit({
@@ -27,6 +45,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api', routes);
+
+app.use(errorHandlerMiddleware);
 
 const server = app.listen(env.PORT, async () => {
   await testConnection();
