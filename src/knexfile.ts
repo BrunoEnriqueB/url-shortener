@@ -38,4 +38,5 @@ const databaseConfigs: Record<'default' | 'test', Knex.Config> = {
   }
 };
 
-export default databaseConfigs;
+export { databaseConfigs };
+export default databaseConfigs.default;

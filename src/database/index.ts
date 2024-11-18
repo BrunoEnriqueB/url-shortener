@@ -2,7 +2,7 @@ import logger from '@/config/logger';
 import databaseConfigs from '@/knexfile';
 import Knex from 'knex';
 
-const database = Knex(databaseConfigs.default);
+const database = Knex(databaseConfigs);
 
 export async function testConnection() {
   try {

@@ -1,8 +1,7 @@
-import 'dotenv/config';
-
 import env from '@/config/environment';
 import logger from '@/config/logger';
 import swaggerDocs from '@/config/swagger';
+import errorHandlerMiddleware from '@/middlewares/error-handler.middleware';
 import cors from 'cors';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
@@ -10,10 +9,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import { testConnection } from './database';
-
-import errorHandlerMiddleware from '@/middlewares/error-handler.middleware';
 import routes from './routes';
-
 const app = express();
 
 const TEN_SECONDS_IN_MILLISECONDS = 10 * 1000;

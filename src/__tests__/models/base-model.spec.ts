@@ -4,7 +4,7 @@ import Knex from 'knex';
 import { Model } from 'objection';
 
 import randomShortUrl from '@/utils/random-short-url.utils';
-import databaseConfigs from '../../knexfile';
+import { databaseConfigs } from '@/knexfile';
 
 const knex = setupTestDb();
 
