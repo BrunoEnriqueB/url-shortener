@@ -1,4 +1,6 @@
-function randomShortUrl(length: number = 6): string {
+import env from '@/config/environment';
+
+function randomShortUrl(length: number = env.MAX_LENGTH_OF_URL): string {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
   let result = '';
   for (let i = 0; i < length; i++) {

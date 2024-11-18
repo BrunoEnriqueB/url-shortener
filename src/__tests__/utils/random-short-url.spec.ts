@@ -1,9 +1,10 @@
+import env from '@/config/environment';
 import randomShortUrl from '@/utils/random-short-url.utils';
 
 describe('RandomShortUrl function', () => {
-  it('should return a string of 6 characters by default', () => {
+  it(`should return a string of ${env.MAX_LENGTH_OF_URL} characters by default`, () => {
     const result = randomShortUrl();
-    expect(result).toHaveLength(6);
+    expect(result).toHaveLength(env.MAX_LENGTH_OF_URL);
   });
 
   it('should return a string of specified length', () => {

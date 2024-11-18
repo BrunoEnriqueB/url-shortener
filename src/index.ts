@@ -9,7 +9,9 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import { setupDatabase, testConnection } from './database';
-import routes from './routes';
+import routes from '@/routes';
+import redirectLink from '@/routes/redirect-link';
+
 const app = express();
 
 const TEN_SECONDS_IN_MILLISECONDS = 10 * 1000;
@@ -41,6 +43,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use(redirectLink);
 app.use('/api', routes);
 
 app.use(errorHandlerMiddleware);

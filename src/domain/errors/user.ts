@@ -2,7 +2,7 @@ import { HttpError, NotFoundError } from '@/domain/errors/http';
 
 export class UserAlreadyExistsError<T> extends HttpError<T> {
   constructor() {
-    super(422, 'User already exists');
+    super(403, 'User already exists');
   }
 }
 

@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import authRouter from '@/routes/auth.routes';
+import linkRouter from '@/routes/link.routes';
 
 const router = Router();
 
@@ -28,5 +29,6 @@ router.get('/status', async (req: Request, res: Response): Promise<void> => {
 });
 
 router.use('/auth', authRouter);
+router.use('/link', linkRouter);
 
 export default router;
