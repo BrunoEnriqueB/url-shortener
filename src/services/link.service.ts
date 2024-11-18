@@ -33,6 +33,7 @@ export class LinkService {
 
     const parsedLinks = links.map((link) => {
       return {
+        id: link.id,
         shortened_url: this.concatenateUrl(link.shortened_url),
         original_url: link.original_url,
         clicks: link.clicks

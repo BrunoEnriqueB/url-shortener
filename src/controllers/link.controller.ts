@@ -33,7 +33,9 @@ export default class LinkController {
         user
       );
 
-      res.status(201).json({ success: true, url: newLink.shortened_url });
+      res
+        .status(201)
+        .json({ success: true, url: newLink.shortened_url, id: newLink.id });
     } catch (error) {
       next(error);
     }
