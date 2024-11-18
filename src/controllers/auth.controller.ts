@@ -16,7 +16,7 @@ export default class AuthController {
       const createUserDto = CreateUserDTO.safeParse(req.body);
 
       if (!createUserDto.success) {
-        throw new UnprocessableEntityError([createUserDto.error]);
+        throw new UnprocessableEntityError(createUserDto.error.errors);
       }
 
       await this.userService.createUser(createUserDto.data);
@@ -31,7 +31,7 @@ export default class AuthController {
       const searchUserDto = SearchUserDTO.safeParse(req.body);
 
       if (!searchUserDto.success) {
-        throw new UnprocessableEntityError([searchUserDto.error]);
+        throw new UnprocessableEntityError(searchUserDto.error.errors);
       }
 
       const token = await this.authService.auth(searchUserDto.data);

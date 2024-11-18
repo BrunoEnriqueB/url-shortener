@@ -22,7 +22,7 @@ export default class Token {
         throw new UnauthorizedError();
       }
 
-      return user as TTokenUserDTO;
+      return userInformation.data as TTokenUserDTO;
     } catch (error) {
       throw new UnauthorizedError();
     }

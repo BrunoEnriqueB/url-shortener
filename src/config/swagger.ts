@@ -1,21 +1,35 @@
 import env from '@/config/environment';
 import swaggerJSDoc from 'swagger-jsdoc';
 
-const swaggerOptions = {
-  definition: {
+const swaggerOptions: swaggerJSDoc.Options = {
+  apis: ['./src/routes/*.ts'],
+  swaggerDefinition: {
     openapi: '3.0.0',
     info: {
-      title: 'URL Shortener API',
+      title: 'API Documentation',
       version: '1.0.0',
-      description: 'API para encurtamento de URLs com gerenciamento de usuários'
+      description: 'API documentation with Swagger'
+    },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT' // Optional: Use 'JWT' or specify your format
+        }
+      }
     },
     servers: [
       {
         url: env.API_URL
       }
+    ],
+    security: [
+      {
+        bearerAuth: []
+      }
     ]
-  },
-  apis: ['./src/routes/*.ts']
+  }
 };
 
 const swaggerDocs = swaggerJSDoc(swaggerOptions);

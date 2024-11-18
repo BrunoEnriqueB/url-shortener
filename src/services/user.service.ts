@@ -13,4 +13,10 @@ export default class UserService {
 
     await this.userRepository.createUser(user);
   }
+
+  async findByEmailOrThrow(email: string) {
+    const user = await this.userRepository.findByEmailOrThrow(email);
+
+    return user;
+  }
 }

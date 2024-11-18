@@ -10,7 +10,8 @@ class Link extends BaseModel {
   static get relationMappings(): RelationMappings {
     return {
       user: {
-        relation: Model.BelongsToOneRelation,
+        // Use this to uncouple links and users, even if each link could belogns to one user
+        relation: Model.ManyToManyRelation,
         modelClass: User,
         join: {
           from: `${this.tableName}.id`,
@@ -30,7 +31,7 @@ class Link extends BaseModel {
   original_url!: string;
   clicks!: number;
 
-  user!: User;
+  user!: User[];
 }
 
 export default Link;

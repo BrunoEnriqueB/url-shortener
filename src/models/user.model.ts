@@ -10,7 +10,7 @@ class User extends BaseModel {
   static get relationMappings(): RelationMappings {
     return {
       links: {
-        relation: Model.HasManyRelation,
+        relation: Model.ManyToManyRelation,
         modelClass: Link,
         join: {
           from: `${this.tableName}.id`,
