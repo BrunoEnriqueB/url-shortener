@@ -6,7 +6,8 @@ const envSchema = z.object({
     .union([
       z.literal('DEVELOPMENT'),
       z.literal('TESTING'),
-      z.literal('PRODUCTION')
+      z.literal('PRODUCTION'),
+      z.literal('test')
     ])
     .default('DEVELOPMENT'),
   DB_HOST: z.string(),

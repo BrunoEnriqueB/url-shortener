@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
     builder.text('original_url').notNullable();
     builder.integer('clicks').defaultTo(0);
     builder.timestamps();
-    builder.dateTime('deleted_at');
+    builder.timestamp('deleted_at');
   });
 }
 

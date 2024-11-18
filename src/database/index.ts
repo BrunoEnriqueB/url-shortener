@@ -1,8 +1,8 @@
 import logger from '@/config/logger';
-import databaseConfig from '@/knexfile';
+import databaseConfigs from '@/knexfile';
 import Knex from 'knex';
 
-const database = Knex(databaseConfig);
+const database = Knex(databaseConfigs.default);
 
 export async function testConnection() {
   try {
