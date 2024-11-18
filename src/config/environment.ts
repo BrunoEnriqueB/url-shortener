@@ -18,7 +18,8 @@ const envSchema = z.object({
   DB_NAME: z.string(),
   DB_PORT: z.coerce.number(),
   API_URL: z.string().default('http://localhost:3000'),
-  SECRET: z.string()
+  SECRET: z.string(),
+  MAX_LENGTH_OF_URL: z.coerce.number().min(3).max(10).default(6)
 });
 
 const env: z.infer<typeof envSchema> = envSchema.parse(process.env);

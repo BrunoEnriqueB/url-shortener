@@ -1,10 +1,11 @@
+import env from '@/config/environment';
 import hashOriginalUrl from '@/utils/hash-url.util';
 
 describe('Hash Url Function', () => {
-  it('should generate a 6-character hash', () => {
+  it(`should generate a ${env.MAX_LENGTH_OF_URL}-character hash`, () => {
     const originalUrl = 'https://example.com';
     const hash = hashOriginalUrl(originalUrl);
-    expect(hash).toHaveLength(6);
+    expect(hash).toHaveLength(env.MAX_LENGTH_OF_URL);
   });
 
   it('should generate different hashes for the same URL', () => {
