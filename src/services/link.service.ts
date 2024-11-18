@@ -1,8 +1,10 @@
 import { TCreateLinkDTO } from '@/dtos/link/create.dto';
+import { CreateLinkAccessDTO } from '@/dtos/link_access/create.dto';
 import Link from '@/models/link.model';
 import User from '@/models/user.model';
 import LinkRepositoryInterface from '@/repositories/link-repository.interface';
 import hashOriginalUrl from '@/utils/hash-url.util';
+import { Request } from 'express';
 
 export class LinkService {
   constructor(private linkRepository: LinkRepositoryInterface) {}
@@ -20,7 +22,7 @@ export class LinkService {
     }
 
     const newLink = await this.linkRepository.create(
-      createLinkDto.original_url,
+      encodeURIComponent(createLinkDto.original_url),
       shortenedUrl,
       user
     );
@@ -28,7 +30,24 @@ export class LinkService {
     return newLink;
   }
 
-  async getLinkByShortUrl(shortUrl: string): Promise<Link | undefined> {
-    return await Link.query().findOne({ shortened_url: shortUrl });
+  async find(shortUrl: string): Promise<Link> {
+    const link = this.linkRepository.findUniqueOrThrow(shortUrl);
+
+    return link;
+  }
+
+  async linkAccess(shortenedUrl: string, req: Request): Promise<Link> {
+    const link = await this.linkRepository.findUniqueOrThrow(shortenedUrl);
+
+    const createLinkAccessDto = CreateLinkAccessDTO.parse({
+      ip_address: req.ip,
+      user_agent: req.headers['user-agent'],
+      metadata: req.headers,
+      link_id: Number(link.id)
+    });
+
+    this.linkRepository.createAccess(createLinkAccessDto);
+
+    return link;
   }
 }

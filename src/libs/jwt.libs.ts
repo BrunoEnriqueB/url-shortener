@@ -4,6 +4,7 @@ import { UnauthorizedError } from '@/domain/errors/http';
 
 import env from '@/config/environment';
 import { TokenUserDTO, TTokenUserDTO } from '@/dtos/user/token.dto';
+import logger from '@/config/logger';
 
 export default class Token {
   static async createToken(userInformation: TTokenUserDTO): Promise<string> {
@@ -24,6 +25,8 @@ export default class Token {
 
       return userInformation.data as TTokenUserDTO;
     } catch (error) {
+      logger.error(`Error validating jwt: ${JSON.stringify(error)}`);
+
       throw new UnauthorizedError();
     }
   }

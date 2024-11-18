@@ -1,6 +1,10 @@
-import { LinkNotFoundError } from '@/domain/errors/link';
-import { UserAlreadyExistsError } from '@/domain/errors/user';
+import {
+  LinkAlreadyExistsError,
+  LinkNotFoundError
+} from '@/domain/errors/link';
+import { TCreateLinkAccessDTO } from '@/dtos/link_access/create.dto';
 import Link from '@/models/link.model';
+import LinkAccess from '@/models/link_access.model';
 import User from '@/models/user.model';
 import UsersLinks from '@/models/user_links.model';
 import { PartialModelObject } from 'objection';
@@ -17,7 +21,7 @@ class LinkRepository implements LinkRepositoryInterface {
     });
 
     if (findLink.length) {
-      throw new UserAlreadyExistsError();
+      throw new LinkAlreadyExistsError();
     }
 
     const newLinkData: PartialModelObject<Link> = {
@@ -53,6 +57,16 @@ class LinkRepository implements LinkRepositoryInterface {
     return link;
   }
 
+  async findByIdOrThrow(id: number): Promise<Link> {
+    const link = await Link.query().findById(id);
+
+    if (!link) {
+      throw new LinkNotFoundError();
+    }
+
+    return link;
+  }
+
   async findUnique(shortened_url: string): Promise<Link | undefined> {
     const link = await Link.query()
       .where({
@@ -61,6 +75,30 @@ class LinkRepository implements LinkRepositoryInterface {
       .first();
 
     return link;
+  }
+
+  async createAccess(linkAccessDto: TCreateLinkAccessDTO): Promise<LinkAccess> {
+    const findLink = await Link.query().findById(linkAccessDto.link_id);
+
+    if (!findLink) {
+      throw new LinkNotFoundError();
+    }
+
+    const newLinkAccessData: PartialModelObject<LinkAccess> = {
+      link_id: linkAccessDto.link_id,
+      ip_address: linkAccessDto.ip_address,
+      metadata: linkAccessDto.metadata,
+      user_agent: linkAccessDto.user_agent
+    };
+
+    const newLinkAccess =
+      await LinkAccess.query().insertGraphAndFetch(newLinkAccessData);
+
+    findLink.clicks++;
+
+    await findLink.$query().update();
+
+    return newLinkAccess;
   }
 }
 
