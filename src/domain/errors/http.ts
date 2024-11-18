@@ -1,4 +1,4 @@
-export class HttpError extends Error {
+export class HttpError<T> extends Error {
   public statusCode: number;
   public errors: T[];
 
@@ -11,31 +11,31 @@ export class HttpError extends Error {
   }
 }
 
-export class BadRequestError extends HttpError {
+export class BadRequestError<T> extends HttpError<T> {
   constructor(errors?: T[]) {
     super(400, 'Bad Request', errors);
   }
 }
 
-export class NotFoundError extends HttpError {
+export class NotFoundError<T> extends HttpError<T> {
   constructor(errors?: T[]) {
     super(404, 'Not found', errors);
   }
 }
 
-export class UnauthorizedError extends HttpError {
+export class UnauthorizedError<T> extends HttpError<T> {
   constructor(errors?: T[]) {
     super(401, 'Unauthorized', errors);
   }
 }
 
-export class UnprocessableEntityError extends HttpError {
+export class UnprocessableEntityError<T> extends HttpError<T> {
   constructor(errors?: T[]) {
     super(422, 'Unprocessable Entity', errors);
   }
 }
 
-export class InternalServerError extends HttpError {
+export class InternalServerError<T> extends HttpError<T> {
   constructor(errors?: T[]) {
     super(500, 'Internal Server Error', errors);
   }

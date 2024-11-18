@@ -7,12 +7,11 @@ import cors from 'cors';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
+import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import { testConnection } from './database';
-import morgan from 'morgan';
 
-import routes from '@/routes';
-import errorHandlerMiddleware from './middlewares/error-handler.middleware';
+import errorHandlerMiddleware from '@/middlewares/error-handler.middleware';
 
 const app = express();
 
@@ -45,7 +44,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-app.use('/api', routes);
+// app.use('/api', routes);
 
 app.use(errorHandlerMiddleware);
 

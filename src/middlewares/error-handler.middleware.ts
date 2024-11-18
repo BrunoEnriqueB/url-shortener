@@ -3,8 +3,8 @@ import logger from '@/config/logger';
 import { HttpError } from '@/domain/errors/http';
 import { NextFunction, Request, Response } from 'express';
 
-export default function (
-  err: HttpError,
+export default function <T>(
+  err: HttpError<T>,
   req: Request,
   res: Response,
   // eslint-disable-next-line

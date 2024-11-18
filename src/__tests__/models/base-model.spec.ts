@@ -3,7 +3,7 @@ import User from '@/models/user.model';
 import Knex from 'knex';
 import { Model } from 'objection';
 
-import randomShortUrl from '@/utils/random-short-url';
+import randomShortUrl from '@/utils/random-short-url.utils';
 import databaseConfigs from '../../knexfile';
 
 const knex = setupTestDb();

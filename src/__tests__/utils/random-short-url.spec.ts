@@ -1,4 +1,4 @@
-import randomShortUrl from '@/utils/random-short-url';
+import randomShortUrl from '@/utils/random-short-url.utils';
 
 describe('RandomShortUrl function', () => {
   it('should return a string of 6 characters by default', () => {
