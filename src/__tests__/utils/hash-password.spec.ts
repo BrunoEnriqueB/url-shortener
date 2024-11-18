@@ -1,6 +1,6 @@
 import { hashPassword, verifyPassword } from '@/utils/hash-password.utils';
 
-describe('Password Utils', () => {
+describe('Hash Password Utils', () => {
   const password = 'securePassword123';
   let hashedPassword: string;
 
