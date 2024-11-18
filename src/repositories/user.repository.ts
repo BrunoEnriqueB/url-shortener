@@ -1,4 +1,7 @@
-import { UserAlreadyExistsError } from '@/domain/errors/user';
+import {
+  UserAlreadyExistsError,
+  UserNotFoundError
+} from '@/domain/errors/user';
 import { TCreateUserDTO } from '@/dtos/user/create.dto';
 import User from '@/models/user.model';
 import UserRepositoryInterface from './user-repository.interface';
@@ -16,6 +19,20 @@ class UserRepository implements UserRepositoryInterface {
     const newUser = await User.query().insertAndFetch(userDTO);
 
     return newUser;
+  }
+
+  async findByEmailOrThrow(email: string): Promise<User> {
+    const user = await User.query()
+      .where({
+        email: email
+      })
+      .first();
+
+    if (!user) {
+      throw new UserNotFoundError();
+    }
+
+    return user;
   }
 }
 

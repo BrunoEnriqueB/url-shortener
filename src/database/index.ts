@@ -3,7 +3,7 @@ import databaseConfigs from '@/knexfile';
 import Knex from 'knex';
 import { Model } from 'objection';
 
-const database = Knex(databaseConfigs.default);
+const database = Knex(databaseConfigs);
 
 export async function testConnection() {
   try {

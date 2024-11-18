@@ -12,26 +12,26 @@ export class HttpError<T> extends Error {
 }
 
 export class BadRequestError<T> extends HttpError<T> {
-  constructor(errors?: T[]) {
-    super(400, 'Bad Request', errors);
+  constructor(errors?: T[], error = 'Bad Request') {
+    super(400, error, errors);
   }
 }
 
 export class NotFoundError<T> extends HttpError<T> {
-  constructor(errors?: T[]) {
-    super(404, 'Not found', errors);
+  constructor(errors?: T[], error = 'Not found') {
+    super(404, error, errors);
   }
 }
 
 export class UnauthorizedError<T> extends HttpError<T> {
-  constructor(errors?: T[]) {
-    super(401, 'Unauthorized', errors);
+  constructor(errors?: T[], error = 'Unauthorized') {
+    super(401, error, errors);
   }
 }
 
 export class UnprocessableEntityError<T> extends HttpError<T> {
-  constructor(errors?: T[]) {
-    super(422, 'Unprocessable Entity', errors);
+  constructor(errors?: T[], error = 'Unprocessable Entity') {
+    super(422, error, errors);
   }
 }
 

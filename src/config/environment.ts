@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import { z } from 'zod';
 
 const envSchema = z.object({
@@ -15,7 +17,8 @@ const envSchema = z.object({
   DB_USER: z.string(),
   DB_NAME: z.string(),
   DB_PORT: z.coerce.number(),
-  API_URL: z.string().default('http://localhost:3000')
+  API_URL: z.string().default('http://localhost:3000'),
+  SECRET: z.string()
 });
 
 const env: z.infer<typeof envSchema> = envSchema.parse(process.env);
