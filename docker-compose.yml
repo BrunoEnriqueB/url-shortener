@@ -2,7 +2,7 @@ services:
   database:
     image: postgres
     restart: always
-    container_name: url-shortener-database
+    container_name: url-shortner-database
     env_file:
       - .env
     ports:

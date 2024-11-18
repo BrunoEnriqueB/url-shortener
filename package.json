@@ -12,7 +12,7 @@
     "prepare": "husky",
     "test": "jest --setupFiles dotenv/config",
     "test:dev": "jest --setupFiles dotenv/config --watchAll",
-    "dev:docker": "tsx watch --inspect=0.0.0.0 src/index.ts",
+    "dev:docker": "npm run migrate && tsx watch --inspect=0.0.0.0 src/index.ts",
     "make:migrate": "node -r dotenv/config --loader ts-node/esm ./node_modules/.bin/knex migrate:make --knexfile=src/knexfile.ts -x ts --env development",
     "migrate": "node -r dotenv/config --loader ts-node/esm ./node_modules/.bin/knex migrate:latest --knexfile=src/knexfile.ts --env development",
     "rollback": "node -r dotenv/config --loader ts-node/esm ./node_modules/.bin/knex migrate:rollback --knexfile=src/knexfile.ts --env development"
