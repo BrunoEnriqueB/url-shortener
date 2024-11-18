@@ -9,7 +9,7 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
-import { testConnection } from './database';
+import { setupDatabase, testConnection } from './database';
 
 import errorHandlerMiddleware from '@/middlewares/error-handler.middleware';
 import routes from './routes';
@@ -51,6 +51,7 @@ app.use(errorHandlerMiddleware);
 
 const server = app.listen(env.PORT, async () => {
   await testConnection();
+  setupDatabase();
 
   logger.info(`Server is listening in port: ${env.PORT}`);
 });

@@ -1,6 +1,7 @@
 import logger from '@/config/logger';
 import databaseConfigs from '@/knexfile';
 import Knex from 'knex';
+import { Model } from 'objection';
 
 const database = Knex(databaseConfigs.default);
 
@@ -14,6 +15,10 @@ export async function testConnection() {
     );
     throw e;
   }
+}
+
+export async function setupDatabase() {
+  Model.knex(database);
 }
 
 export default database;
