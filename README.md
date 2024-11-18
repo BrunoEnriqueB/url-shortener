@@ -1,5 +1,19 @@
 # URL Shortener
 
+## Sumário
+
+- [URL Shortener](#url-shortener)
+  - [Sumário](#sumário)
+  - [Sobre o Projeto](#sobre-o-projeto)
+  - [Requisitos do Projeto](#requisitos-do-projeto)
+    - [Requisitos Funcionais](#requisitos-funcionais)
+    - [Requisitos Não Funcionais](#requisitos-não-funcionais)
+  - [Tecnologias Utilizadas](#tecnologias-utilizadas)
+  - [Dependências (Docker)](#dependências-docker)
+  - [Como Executar Localmente](#como-executar-localmente)
+  - [Hospedagem](#hospedagem)
+  - [Melhorias](#melhorias)
+
 ## Sobre o Projeto
 
 Este projeto é um sistema de encurtador de URLs desenvolvido em [Node.js](https://nodejs.org/en). Ele permite que qualquer pessoa encurte URLs, enquanto usuários autenticados podem gerenciar suas URLs encurtadas. O sistema também conta as visitas para cada URL encurtada e oferece uma API REST para interações.
@@ -77,3 +91,15 @@ O projeto utiliza Docker e Docker Compose para simplificar a configuração do a
    docker-compose down
 
    ```
+
+## Hospedagem
+
+Este sistema está atualmente hospedado em URL: https://url-shortener-1-23st.onrender.com/api-docs.
+
+## Melhorias
+
+Esse projeto tem um potencial para escalar tanto de forma vertical quanto horizontal, além disso, existem pontos de melhoria de código também, algumas que posso citar são:
+
+- Sistema de cache: utilizar uma tecnologia de cache, como Redis, para diminuir a latencia de resposta na hora de acessar a url;
+- Mais testes: Aumentar a quantidade de testes unitários e implementar testes de integração. Além de utilizar testes de carga para entender a capacidade de acesso e tempo de resposta da aplicação;
+- Por ser um pequeno projeto, não foi construido com a preocupação de "colisão de urls". Portanto, implementar um algoritmo que evite isso seria necessário em um cenário mais escalável;
