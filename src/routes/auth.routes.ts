@@ -49,18 +49,7 @@ const authController = new AuthController(userService, authService);
  *                   type: boolean
  *                   default: true
  *       422:
- *         description: Validation error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                  success:
- *                    type: boolean
- *                    default: false
- *                  message:
- *                    type: string
- *                    default: Unprocessable Entity
+ *         $ref: '#/components/responses/ValidationError'
  *
  */
 router.post('/signup', authController.signup.bind(authController));
@@ -103,44 +92,12 @@ router.post('/signup', authController.signup.bind(authController));
  *                   type: string
  *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzMxOTQxNDA2fQ.OEz5-Rj91BIhcSN7AGC0SgRVz50F-2CdfigQIWFrxGk"
  *       401:
- *         description: Invalid credentials
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   default: false
- *                 message:
- *                   type: string
- *                   default: Unauthorized
+ *         $ref: '#/components/responses/UnauthorizedError'
  *       404:
- *         description: User not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   default: false
- *                 message:
- *                   type: string
- *                   default: User not found
+ *         $ref: '#/components/responses/NotFoundError'
  *       422:
- *         description: Validation error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   default: false
- *                 message:
- *                   type: string
- *                   default: Unprocessable Entity
+ *         $ref: '#/components/responses/ValidationError'
+
  */
 router.post('/sigin', authController.sigin.bind(authController));
 
