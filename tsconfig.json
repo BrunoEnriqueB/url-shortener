@@ -3,7 +3,6 @@
     "target": "ESNext",
     "module": "NodeNext",
     "rootDir": "./",
-    "moduleResolution": "nodenext",
     "baseUrl": ".",
     "types": ["node", "jest", "./src/global.d.ts", "@types/jest"],
     "paths": {

@@ -3,5 +3,4 @@ dist
 build
 .vscode/settings.json
 *.env
-package-lock.json
 logs

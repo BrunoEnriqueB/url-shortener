@@ -1,9 +1,11 @@
 ./node_modules
 Dockerfile
 .dockerignore
-docker-compose.yml
+docker-compose*.yml
 jest.config.ts
 eslint.config.mjs
 .eslintignore
 .prettierrc
 .prettierignore
+.husky
+Dockerfile.prod
