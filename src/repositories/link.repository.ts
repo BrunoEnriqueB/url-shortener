@@ -11,6 +11,7 @@ import { PartialModelObject } from 'objection';
 import LinkRepositoryInterface from './link-repository.interface';
 import { TListLinksDto } from '@/dtos/link/list.dto';
 import { TUpdateLinkDto } from '@/dtos/link/update.dto';
+import { TDeleteLinkDto } from '@/dtos/link/delete.dto';
 
 class LinkRepository implements LinkRepositoryInterface {
   async create(
@@ -74,6 +75,17 @@ class LinkRepository implements LinkRepositoryInterface {
     if (!link) {
       throw new LinkNotFoundError();
     }
+
+    return link;
+  }
+
+  async findById(id: number): Promise<Link | undefined> {
+    const link = await Link.query()
+      .withGraphJoined({
+        accesses: true,
+        user: true
+      })
+      .findById(id);
 
     return link;
   }
@@ -148,6 +160,18 @@ class LinkRepository implements LinkRepositoryInterface {
     const link = await Link.query().findById(parameters.id);
 
     return link;
+  }
+
+  async delete(parameters: TDeleteLinkDto) {
+    await Link.query()
+      .whereExists(
+        UsersLinks.query().where({
+          user_id: parameters.user_id,
+          link_id: parameters.id
+        })
+      )
+      .where(`${Link.tableName}.id`, parameters.id)
+      .deleteById(parameters.id);
   }
 }
 

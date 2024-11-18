@@ -1,3 +1,4 @@
+import { TDeleteLinkDto } from '@/dtos/link/delete.dto';
 import { TListLinksDto } from '@/dtos/link/list.dto';
 import { TUpdateLinkDto } from '@/dtos/link/update.dto';
 import { TCreateLinkAccessDTO } from '@/dtos/link_access/create.dto';
@@ -10,9 +11,11 @@ interface LinkRepositoryInterface {
   findUniqueOrThrow(shortenedUrl: string): Promise<Link>;
   findUnique(shortenedUrl: string): Promise<Link | undefined>;
   findByIdOrThrow(id: number): Promise<Link>;
+  findById(id: number): Promise<Link | undefined>;
   createAccess(data: TCreateLinkAccessDTO): Promise<LinkAccess>;
   find(listParameters: TListLinksDto): Promise<Link[]>;
   update(updateParameters: TUpdateLinkDto): Promise<Link | undefined>;
+  delete(deleteLinkDto: TDeleteLinkDto): Promise<void>;
 }
 
 export default LinkRepositoryInterface;

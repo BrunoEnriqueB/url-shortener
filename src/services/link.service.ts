@@ -1,6 +1,7 @@
 import env from '@/config/environment';
 import { UnauthorizedError } from '@/domain/errors/http';
 import { TCreateLinkDTO } from '@/dtos/link/create.dto';
+import { TDeleteLinkDto } from '@/dtos/link/delete.dto';
 import { TListLinksDto } from '@/dtos/link/list.dto';
 import { TUpdateLinkDto } from '@/dtos/link/update.dto';
 import { CreateLinkAccessDTO } from '@/dtos/link_access/create.dto';
@@ -70,6 +71,22 @@ export class LinkService {
     const updatedLink = await this.linkRepository.update(updateLinkDto);
 
     return updatedLink;
+  }
+
+  async delete(deleteLinkDto: TDeleteLinkDto) {
+    const link = await this.linkRepository.findById(deleteLinkDto.id);
+
+    if (!link) return;
+
+    const linkHasUser = link.user?.length;
+    const linkBelongsToUser =
+      link.user?.length && link.user[0]!.id === deleteLinkDto.user_id;
+
+    if (!linkHasUser || !linkBelongsToUser) {
+      return;
+    }
+
+    await this.linkRepository.delete(deleteLinkDto);
   }
 
   private concatenateUrl(shortenedUrl: string) {

@@ -129,4 +129,34 @@ router.get('/', linkController.list.bind(linkController));
  */
 router.patch('/:id', linkController.update.bind(linkController));
 
+/**
+ * @swagger
+ * /api/link/{id}:
+ *   delete:
+ *     summary: Delete a link
+ *     description: Delete an existing link by its ID
+ *     tags:
+ *       - Links
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: The ID of the link to delete
+ *         schema:
+ *           type: string
+ *     responses:
+ *       204:
+ *         description: Link deleted successfully
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
+ *       422:
+ *         $ref: '#/components/responses/ValidationError'
+ */
+
+router.delete('/:id', linkController.delete.bind(linkController));
+
 export default router;

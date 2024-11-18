@@ -3,6 +3,7 @@ import {
   UnprocessableEntityError
 } from '@/domain/errors/http';
 import { CreateLinkDTO } from '@/dtos/link/create.dto';
+import { DeleteLinkDto } from '@/dtos/link/delete.dto';
 import { FindLinkDTO } from '@/dtos/link/find.dto';
 import { ListLinksDto } from '@/dtos/link/list.dto';
 import { UpdateLinkDto } from '@/dtos/link/update.dto';
@@ -106,6 +107,31 @@ export default class LinkController {
       await this.linkService.update(updateLinkDto.data);
 
       res.status(200).json({ success: true });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const user = await validateToken(req);
+
+      if (!user) {
+        throw new UnauthorizedError();
+      }
+
+      const deleteLinkDto = DeleteLinkDto.safeParse({
+        id: req.params.id,
+        user_id: user.id
+      });
+
+      if (!deleteLinkDto.success) {
+        throw new UnprocessableEntityError(deleteLinkDto.error.errors);
+      }
+
+      await this.linkService.delete(deleteLinkDto.data);
+
+      res.status(204).json();
     } catch (error) {
       next(error);
     }
