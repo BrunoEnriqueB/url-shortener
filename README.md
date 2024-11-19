@@ -77,7 +77,7 @@ O projeto utiliza Docker e Docker Compose para simplificar a configuração do a
 3. **Iniciar o Docker Compose**: Com todos os arquivos configurados e o Docker em execução, inicie os contêineres com o seguinte comando:
 
    ```bash
-   docker-compose up --build -d
+   docker compose up --build -d
 
    ```
 
@@ -88,18 +88,18 @@ O projeto utiliza Docker e Docker Compose para simplificar a configuração do a
 6. **Para Encerrar o Projeto**: Para interromper e remover os contêineres, utilize:
 
    ```bash
-   docker-compose down
+   docker compose down
 
    ```
 
 ## Hospedagem
 
-Este sistema está atualmente hospedado em URL: https://url-shortener-1-23st.onrender.com/api-docs.
+Este sistema está atualmente hospedado na URL: https://url-shortener-1-23st.onrender.com/api-docs.
 
 ## Melhorias
 
 Esse projeto tem um potencial para escalar tanto de forma vertical quanto horizontal, além disso, existem pontos de melhoria de código também, algumas que posso citar são:
 
-- Sistema de cache: utilizar uma tecnologia de cache, como Redis, para diminuir a latencia de resposta na hora de acessar a url;
-- Mais testes: Aumentar a quantidade de testes unitários e implementar testes de integração. Além de utilizar testes de carga para entender a capacidade de acesso e tempo de resposta da aplicação;
-- Por ser um pequeno projeto, não foi construido com a preocupação de "colisão de urls". Portanto, implementar um algoritmo que evite isso seria necessário em um cenário mais escalável;
+- **Sistema de cache**: utilizar uma tecnologia de cache, como Redis, para diminuir a latencia de resposta na hora de acessar a url;
+- **Mais testes**: Aumentar a quantidade de testes unitários e implementar testes de integração. Além de utilizar testes de carga para entender a capacidade de acesso e tempo de resposta da aplicação;
+- **Colisão de URLs**: Por ser um pequeno projeto, não foi construido com a preocupação de "colisão de urls". Portanto, implementar um algoritmo que evite isso seria necessário em um cenário mais escalável;
