@@ -94,7 +94,7 @@ O projeto utiliza Docker e Docker Compose para simplificar a configuração do a
 
 ## Hospedagem
 
-Este sistema está atualmente hospedado na URL: https://url-shortener-1-23st.onrender.com/api-docs.
+Este sistema está atualmente hospedado na URL: https://url-shortener-1-23st.onrender.com/api-docs. (Obs: Pode ser que ao clicar no link ele demore para carregar por conta do cold start da maquina).
 
 ## Melhorias
 
